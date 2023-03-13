@@ -6,17 +6,17 @@
 
 float HitSphere(const Vec3& center, float radius, const Ray& ray) {
 	Vec3 oc = ray.Origin() - center;
-	auto a = Dot(ray.Direction(), ray.Direction());
-	auto b = 2.0 * Dot(oc, ray.Direction());
-	auto c = Dot(oc, oc) - radius * radius;
-	auto discriminant = b * b - 4 * a * c;
+	auto a = ray.Direction().LengthSquared();
+	auto halfB = Dot(oc, ray.Direction());
+	auto c = oc.LengthSquared() - radius * radius;
+	auto discriminant = halfB * halfB - a * c;
 	if(discriminant < 0)
 	{
 		return -1;
 	}
 	else 
 	{
-		return (-b - sqrt(discriminant)) / (2.0f*a);
+		return (-halfB - sqrt(discriminant)) / a;
 	}
 }
 
